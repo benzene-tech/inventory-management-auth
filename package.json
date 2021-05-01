@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/benzene-tech/inventory-management-auth.git",
   "author": "Athithya Vidyarth <avidyarth@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
