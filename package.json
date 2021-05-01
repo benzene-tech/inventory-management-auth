@@ -1,0 +1,8 @@
+{
+  "name": "inventory-management-auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/benzene-tech/inventory-management-auth.git",
+  "author": "Athithya Vidyarth <avidyarth@gmail.com>",
+  "license": "MIT"
+}
