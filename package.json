@@ -1,5 +1,5 @@
 {
-  "name": "inventory-management-auth",
+  "name": "@benzene-tech/inventory-management-auth",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/benzene-tech/inventory-management-auth.git",
