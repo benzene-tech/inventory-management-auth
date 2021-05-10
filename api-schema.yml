@@ -1,0 +1,66 @@
+openapi: '3.0.2'
+info:
+  title: IM-Auth API
+  version: '1.0.0'
+servers:
+  - url: http://inventory-management.com/api/auth
+paths:
+  /sign-in:
+    description: Description
+    post:
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              properties:
+                username:
+                  description: Username
+                  type: string
+                  example: testuser
+                password:
+                  description: Password
+                  type: string
+                  example: testpass
+              required:
+                - username
+                  password
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Error'
+                required:
+                  - errors
+          
+        '404':
+          description: Not Found
+          content:
+            'application/json':
+              schema:
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Error'
+                required:
+                  - errors
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Unauthorized'
+        field:
+          type: string
+          example: 'Username'
+      required:
+        - message
