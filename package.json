@@ -5,6 +5,9 @@
   "repository": "https://github.com/benzene-tech/inventory-management-auth.git",
   "author": "Athithya Vidyarth <avidyarth@gmail.com>",
   "license": "MIT",
+  "files": [
+    "build/**/*"
+  ],
   "scripts": {
     "start": "node src/index.js",
     "start-dev": "nodemon src/index.js",
@@ -49,7 +52,7 @@
     },
     "extends": [
       "airbnb-base",
-      "prettier",
+      "plugin:prettier/recommended",
       "plugin:node/recommended"
     ],
     "plugins": [
@@ -67,6 +70,12 @@
         {
           "devDependencies": true
         }
+      ],
+      "class-methods-use-this": [
+        0
+      ],
+      "no-unpublished-require": [
+        0
       ]
     }
   },
