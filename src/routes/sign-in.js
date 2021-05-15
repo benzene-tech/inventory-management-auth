@@ -1,44 +1,48 @@
 /* eslint-disable no-underscore-dangle */
 const {
+  Password,
   BadRequestError,
-  Publisher,
   validateRequest,
 } = require('@benzene-tech/inventory-management-core');
 const { Router } = require('express');
 const { body } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const newUserEvent = require('../events/new-user-event');
 
 const router = Router();
 
 router.post(
-  '/api/auth/sign-up',
+  '/api/auth/sign-in',
   [
-    body('firstName').isString(),
-    body('lastName').isString(),
     body('username').isString(),
     body('password')
       .trim()
       .isLength({ min: 8, max: 32 })
       .withMessage('Passwords must be between 8 and 32 characters'),
-    body('dob').isString(),
-    body('phoneNumber').isMobilePhone(),
   ],
   validateRequest,
   async (req, res, next) => {
-    const { firstName, lastName, username, password, dob, phoneNumber } =
-      req.body;
+    const { username, password } = req.body;
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({
+      username,
+    });
 
-    if (existingUser) {
-      next(new BadRequestError('Username already in use'));
+    if (!existingUser) {
+      next(new BadRequestError('User not found'));
       return;
     }
 
-    const user = User.build({ username, password });
-    await user.save();
+    const validatePassword = await Password.compare(
+      existingUser.password,
+      password
+    );
+    if (!validatePassword) {
+      next(new BadRequestError('Invalid Password'));
+      return;
+    }
+
+    const user = await User.findOne({ username });
 
     const userJwt = jwt.sign(
       {
@@ -48,22 +52,9 @@ router.post(
       process.env.JWT_SECRET
     );
 
-    const publisher = await Publisher.build(process.env.RABBITMQ_URI, 'users');
-
-    const eventPayload = newUserEvent({
-      firstName,
-      lastName,
-      username,
-      password: user.password,
-      dob,
-      phoneNumber,
-    });
-
-    await publisher.publishToQueue(JSON.stringify(eventPayload));
-
     res.cookie('jwt', userJwt, { maxAge: 86400000 });
 
-    res.status(201).send({
+    res.status(200).send({
       user: {
         _id: user._id,
         username: user.username,

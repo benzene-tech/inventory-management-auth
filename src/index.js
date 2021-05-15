@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// eslint-disable-next-line node/no-unpublished-require
 const app = require('./app');
 
 const setupService = async () => {
@@ -7,6 +8,9 @@ const setupService = async () => {
   }
   if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI is not defined!');
+  }
+  if (!process.env.RABBITMQ_URI) {
+    throw new Error('RABBITMQ_URI is not defined!');
   }
 
   try {

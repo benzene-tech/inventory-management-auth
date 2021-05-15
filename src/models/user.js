@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Password = require('../services/password');
+const { Password } = require('@benzene-tech/inventory-management-core');
 
 const userSchema = new mongoose.Schema({
   username: {
