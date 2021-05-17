@@ -15,10 +15,7 @@ router.post(
   '/api/auth/sign-in',
   [
     body('username').isString(),
-    body('password')
-      .trim()
-      .isLength({ min: 8, max: 32 })
-      .withMessage('Passwords must be between 8 and 32 characters'),
+    body('password').trim().isLength({ min: 8, max: 32 }),
   ],
   validateRequest,
   async (req, res, next) => {
