@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 const {
   Password,
-  BadRequestError,
+  NotFoundError,
   validateRequest,
+  UnauthorizedError,
 } = require('@benzene-tech/inventory-management-core');
 const { Router } = require('express');
 const { body } = require('express-validator');
@@ -26,7 +27,7 @@ router.post(
     });
 
     if (!existingUser) {
-      next(new BadRequestError('User not found'));
+      next(new NotFoundError('User not found'));
       return;
     }
 
@@ -35,7 +36,7 @@ router.post(
       password
     );
     if (!validatePassword) {
-      next(new BadRequestError('Invalid Password'));
+      next(new UnauthorizedError('Invalid Password'));
       return;
     }
 

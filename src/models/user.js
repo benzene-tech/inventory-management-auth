@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { Password } = require('@benzene-tech/inventory-management-core');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -12,13 +11,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre('save', async function hashPassword(done) {
-  if (this.isModified('password')) {
-    const hashed = await Password.toHash(this.get('password'));
-    this.set('password', hashed);
-  }
-  done();
-});
+// userSchema.pre('save', async function hashPassword(done) {
+//   if (this.isModified('password')) {
+//     const hashed = await Password.toHash(this.get('password'));
+//     this.set('password', hashed);
+//   }
+//   done();
+// });
 
 userSchema.statics.build = (attrs) => {
   // eslint-disable-next-line no-use-before-define

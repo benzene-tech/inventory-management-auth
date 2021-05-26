@@ -1,6 +1,8 @@
+/* eslint-disable node/no-unpublished-require */
 const mongoose = require('mongoose');
-// eslint-disable-next-line node/no-unpublished-require
+const { Subscriber } = require('@benzene-tech/inventory-management-core');
 const app = require('./app');
+const eventHandler = require('./events/event-handler');
 
 const setupService = async () => {
   if (!process.env.JWT_SECRET) {
@@ -23,6 +25,10 @@ const setupService = async () => {
     // eslint-disable-next-line no-console
     console.error(err);
   }
+
+  const subscriber = await Subscriber.build(process.env.RABBITMQ_URI, 'users');
+
+  await subscriber.listenForEvents(eventHandler);
 
   app.listen(3000, () => {
     // eslint-disable-next-line no-console

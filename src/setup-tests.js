@@ -1,23 +1,17 @@
-// eslint-disable-next-line node/no-unpublished-require
-const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
-
-let mongo = null;
 
 beforeAll(async () => {
   process.env.JWT_SECRET = 'asdf';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  process.env.MONGO_URI = 'mongodb://auth-mongo-svc:27017/auth';
+  jest.setTimeout(1000 * 60 * 10);
 
-  mongo = new MongoMemoryServer();
-  const mongoUri = await mongo.getUri();
-
-  await mongoose.connect(mongoUri, {
+  await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 });
 
 afterAll(async () => {
-  await mongo.stop();
   await mongoose.connection.close();
 });

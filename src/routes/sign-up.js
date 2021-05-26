@@ -3,6 +3,7 @@ const {
   BadRequestError,
   Publisher,
   validateRequest,
+  Password,
 } = require('@benzene-tech/inventory-management-core');
 const { Router } = require('express');
 const { body } = require('express-validator');
@@ -36,8 +37,8 @@ router.post(
       next(new BadRequestError('Username already in use'));
       return;
     }
-
-    const user = User.build({ username, password });
+    const hashedPassword = await Password.toHash(password);
+    const user = User.build({ username, password: hashedPassword });
     await user.save();
 
     const userJwt = jwt.sign(

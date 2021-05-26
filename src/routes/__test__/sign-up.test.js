@@ -7,7 +7,7 @@ it('returns a 201 on successful sign up', async () => {
     .send({
       firstName: 'Vishnu',
       lastName: 'Vardhan',
-      username: 'vvardhan',
+      username: 'vardhan6',
       password: 'ilovemyself',
       dob: '02-Sep-1999',
       phoneNumber: '+918667375219',
