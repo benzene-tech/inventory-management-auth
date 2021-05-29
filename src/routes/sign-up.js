@@ -25,11 +25,21 @@ router.post(
       .withMessage('Passwords must be between 8 and 32 characters'),
     body('dob').isString(),
     body('phoneNumber').isMobilePhone(),
+    body('storeId').isString(),
+    body('userType').isString(),
   ],
   validateRequest,
   async (req, res, next) => {
-    const { firstName, lastName, username, password, dob, phoneNumber } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      username,
+      password,
+      dob,
+      phoneNumber,
+      storeId,
+      userType,
+    } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -58,6 +68,8 @@ router.post(
       password: user.password,
       dob,
       phoneNumber,
+      storeId,
+      userType,
     });
 
     await publisher.publishToQueue(JSON.stringify(eventPayload));

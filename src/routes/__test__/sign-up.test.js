@@ -11,6 +11,8 @@ it('returns a 201 on successful sign up', async () => {
       password: 'ilovemyself',
       dob: '02-Sep-1999',
       phoneNumber: '+918667375219',
+      storeId: '123',
+      userType: 'user',
     })
     .expect(201);
 });
