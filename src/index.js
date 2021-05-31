@@ -26,7 +26,7 @@ const setupService = async () => {
     console.error(err);
   }
 
-  const subscriber = await Subscriber.build(process.env.RABBITMQ_URI, 'users');
+  const subscriber = await Subscriber.build(process.env.RABBITMQ_URI, 'auth');
 
   await subscriber.listenForEvents(eventHandler);
 
