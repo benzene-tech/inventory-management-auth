@@ -9,6 +9,7 @@ const { Router } = require('express');
 const { body } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Auth = require('../models/auth');
 const newUserEvent = require('../events/new-user-event');
 
 const router = Router();
@@ -50,6 +51,8 @@ router.post(
     const hashedPassword = await Password.toHash(password);
     const user = User.build({ username, password: hashedPassword });
     await user.save();
+    const auth = Auth.build({ username, storeId, userType });
+    await auth.save();
 
     const userJwt = jwt.sign(
       {

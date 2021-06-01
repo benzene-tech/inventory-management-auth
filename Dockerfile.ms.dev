@@ -1,0 +1,11 @@
+FROM node:alpine AS build
+WORKDIR /usr/src/node/app
+COPY package.json .
+RUN yarn install
+
+FROM alpine
+WORKDIR /app
+COPY --from=build /usr/src/node/app /app/
+EXPOSE 3000
+CMD ["yarn","start-dev"]
+

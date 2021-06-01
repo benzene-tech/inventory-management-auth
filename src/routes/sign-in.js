@@ -8,6 +8,7 @@ const {
 const { Router } = require('express');
 const { body } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const Auth = require('../models/auth');
 const User = require('../models/user');
 
 const router = Router();
@@ -49,6 +50,7 @@ router.post(
       },
       process.env.JWT_SECRET
     );
+    const auth = await Auth.findOne({ username });
 
     res.cookie('jwt', userJwt, { maxAge: 86400000 });
 
@@ -56,6 +58,8 @@ router.post(
       user: {
         _id: user._id,
         username: user.username,
+        storeId: auth.storeId,
+        userType: auth.userType,
       },
     });
   }
