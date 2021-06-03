@@ -14,7 +14,8 @@
     "postinstall": "husky install",
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@benzene-tech/inventory-management-core": "^1.1.6",
