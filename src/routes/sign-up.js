@@ -79,12 +79,7 @@ router.post(
 
     res.cookie('jwt', userJwt, { maxAge: 86400000 });
 
-    res.status(201).send({
-      user: {
-        _id: user._id,
-        username: user.username,
-      },
-    });
+    res.status(201).send({ message: 'User created successfully' });
   }
 );
 
